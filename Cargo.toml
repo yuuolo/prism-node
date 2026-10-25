@@ -1,0 +1,42 @@
+[package]
+name = "prism-node"
+description = "Prism proxy node: AnyTLS server with sing-box compatible config, hot user reload and per-user traffic counters"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/yuuolo/prism-node"
+
+[lib]
+name = "prism_node"
+path = "src/lib.rs"
+
+[[bin]]
+name = "prism-node"
+path = "src/main.rs"
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+tokio-util = "0.7"
+anyhow = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+axum = { version = "0.8", default-features = false, features = ["http1", "json", "tokio"] }
+rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12", "logging"] }
+tokio-rustls = { version = "0.26", default-features = false, features = ["ring", "tls12", "logging"] }
+sha2 = "0.10"
+md-5 = "0.10"
+hex = "0.4"
+clap = { version = "4", features = ["derive"] }
+socket2 = { version = "0.6", features = ["all"] }
+
+[dev-dependencies]
+rcgen = "0.13"
+# The Prism client, for interop tests (v0.1.7).
+prism-core = { git = "https://github.com/yuuolo/prism", rev = "4b7999e" }
+
+[profile.release]
+lto = "thin"
+codegen-units = 4
+strip = true
