@@ -4,6 +4,8 @@
 
 ```bash
 cargo build --release      # 产物：target/release/prism-node
+# 静态链接的 Linux 版（任意发行版可直接运行，约 4.7 MB；需要 musl-tools）
+cargo build --release --target x86_64-unknown-linux-musl
 ```
 
 和 sing-box 节点相比：
@@ -83,7 +85,7 @@ WantedBy=multi-user.target
 ## 测试
 
 ```bash
-cargo test                                     # 单元测试 + 与 Prism 客户端的回环互通
+cargo test                                     # 单元测试 + 与 Prism 客户端的回环互通；Linux 上另含 SIGHUP / SIGTERM 测试
 PRISM_E2E_SINGBOX=/path/to/sing-box PRISM_E2E_MIHOMO=/path/to/mihomo \
   cargo test --test clients -- --nocapture       # 与 sing-box / mihomo 客户端互通
 ```
